@@ -1,35 +1,42 @@
-# **Car-Insurance-Fraud-Detection**
+# 🚗 **Car Insurance Fraud Detection System**
 
-This project is an end-to-end Machine Learning system that detects fraudulent car insurance claims using structured customer and accident data. It includes full data preprocessing, feature engineering, model training with ensemble learning, and deployment using FastAPI + Streamlit.
+This project is an end-to-end Machine Learning system designed to detect fraudulent car insurance claims using structured customer and accident data. It covers the full ML lifecycle from data preprocessing and feature engineering to model training, evaluation, and deployment using FastAPI and Streamlit.
 
 # 🎯 Problem Statement
 
-Insurance companies face significant financial losses due to fraudulent claims.
-The goal of this project is to build a predictive system that can accurately classify whether an insurance claim is fraudulent or legitimate.
+Insurance companies suffer significant financial losses due to fraudulent claims.
+
+The objective of this project is to build a predictive system that can accurately classify whether a car insurance claim is:
+
+🚨 Fraudulent
+✅ Legitimate
 
 # ⚙️ Project Pipeline
+
 1️⃣ Data Preprocessing
-Handling missing values
-Encoding categorical variables
-Feature scaling
-Removing unnecessary columns
+Handled missing values (e.g., authorities_contacted)
+Removed irrelevant columns (e.g., policy_id)
+Encoded categorical variables
+Scaled numerical features where needed
 
 2️⃣ Feature Engineering
-Creating age groups from insured age
-Extracting date-based features (year, month, day)
-Transforming binary features (e.g., police report availability)
+Created age groups from insured age
+Extracted time-based features from incident date
+Transformed binary and categorical variables
+Generated new meaningful features using custom feature functions
 
 3️⃣ Handling Imbalanced Data
-Applied Random UnderSampling to balance dataset
-Improved model performance on minority (fraud) class
+Applied KMeansSMOTE to oversample minority class
+Improved model sensitivity toward fraud cases
 
 4️⃣ Encoding Techniques
-One-Hot Encoding for nominal features
-Ordinal Encoding for severity & education level
-Target Encoding for high-cardinality features
+One-Hot Encoding → nominal features (sex, incident type, etc.)
+Ordinal Encoding → education level, incident severity
+CatBoost Encoding → high-cardinality features (occupation, age group)
 
 5️⃣ Model Training
-Multiple machine learning models were trained and evaluated:
+
+*Multiple ML models were evaluated:*
 
 Random Forest
 Gradient Boosting
@@ -38,45 +45,80 @@ LightGBM
 SVM
 KNN
 AdaBoost
-6️⃣ Ensemble Learning
 
-A Stacking Classifier was built using:
-Random Forest
-Gradient Boosting
-LightGBM
-as base models
-Final meta-model:
-XGBoost
+6️⃣ Deep Learning Model (Neural Network)
 
-7️⃣ Evaluation Metrics
+A fully connected neural network was built using TensorFlow/Keras:
+
+Input layer → feature vector
+Hidden layers → Dense (ReLU activation)
+Output layer → Sigmoid (binary classification)
+HeNormal initialization for stable training
+GlorotUniform for output layer
+
+7️⃣ Evaluation Strategy
+
+Model performance was evaluated using:
+
 F1 Score (primary metric)
-Precision / Recall
+Precision & Recall
 Confusion Matrix
-Precision-Recall Curve (threshold tuning)
+Precision-Recall Curve
+Optimal threshold tuning instead of default 0.5
 
 8️⃣ Model Deployment
+
 # 🔥 FastAPI Backend
-REST API for real-time predictions
-Accepts JSON input
-Returns fraud probability + prediction
+
+A REST API was built using FastAPI to serve predictions in real time:
+
+Accepts JSON input (customer + incident data)
+Applies preprocessing pipeline
+Returns:
+Fraud probability score
+Final prediction (Fraud / Not Fraud)
 
 # 🎨 Streamlit Frontend
-Interactive UI for users
-Real-time fraud detection
-Clean and simple dashboard
 
-🚀 Tech Stack
+An interactive web application was built using Streamlit:
+
+User-friendly interface
+Input form for claim details
+Real-time fraud prediction
+Displays probability + decision
+Clean dashboard for non-technical users
+
+# 🚀 Tech Stack
 Python
 Pandas / NumPy
 Scikit-learn
-Ensemble Models
-Imbalanced-learn
+Imbalanced-learn (SMOTE, KMeansSMOTE)
+TensorFlow / Keras
+CatBoost Encoder
 FastAPI
 Streamlit
 Joblib
 
 # 📊 Model Output
-Fraud probability score
-Binary classification:
-Fraud 🚨
-Not Fraud ✅
+
+The system returns:
+
+📈 Fraud Probability Score (0 → 1)
+🧠 Binary Classification:
+🚨 Fraud
+✅ Not Fraud
+
+# 💾 Model Deployment Artifacts
+
+Saved components:
+
+Trained Neural Network → fraud_nn.keras
+Encoders:
+cat_encoder.pkl
+ordinal_encoder.pkl
+Feature columns → columns.pkl
+Optimal threshold → thresholdneural.pkl
+
+# 🌐 System Architecture
+
+Streamlit UI → FastAPI Backend → Preprocessing Pipeline → ML/DL Model → Prediction Output
